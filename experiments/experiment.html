@@ -1,0 +1,111 @@
+<html>
+
+<head>
+    <title>Button Giphys</title>
+</head>
+<body>
+    <button class="buttonGiphy" data-gip="Frida Kahlo">Frida Kahlo</button>
+    <button class="buttonGiphy" data-gip="Winston Churchill">Winston Churchill</button>
+    <button class="buttonGiphy" data-gip="Martin Freeman">Martin Freeman</button>
+    
+    <div class="inputForm">
+        <label for="addItem">Add a Button to Get Giphys</label>
+        <input type="text" id="addItemText">
+        <button type="submit" class="buttonAdd" id="addButton">Add Button</button>
+    </div>
+    
+    <section id="btnnArea" class="names"> </section>
+    <section id="giphyArea" class="names"> </section>
+
+    <script src='http://code.jquery.com/jquery-2.1.3.min.js'></script>
+    <script type="text/javascript">
+
+    var btnnSearch = ["Surfing", "Marilyn+Monroe", "Amy+Schumer"];
+    
+    var animateUrl = "";
+    var staticUrl = "";    
+
+    function btnnGroup() {
+        for(var i =0; i < btnnSearch.length; i++){
+            //console.log(btnnSearch);
+            $("#btnnArea").append("<button class='buttonGiphy' data-gip="+btnnSearch[i]+">"+btnnSearch[i]+"</button>");
+        }
+    } //function btnnGroup
+
+    btnnGroup();
+
+    $('#addButton').on('click', function(){
+        var newItem = $('#addItemText').val();
+        console.log("newItem " + newItem);
+        $("#btnnArea").append("<button class='buttonGiphy' data-gip="+newItem+">"+newItem+"</button>"); 
+        $('#addItemText').val("");        
+    })//addButton
+
+    //$('button').on('click', function(){
+        $('body').on('click','.buttonGiphy',function(){
+        //$('.buttonGiphy').on('click', function(){
+        //$('.animalButton').removeClass('active'); //leftover from other exercise
+        $(this).addClass('active');
+        
+        var p = $(this).data('gip'); 
+        
+        //var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + p + "&api_key=dc6zaTOxFJmzC&limit=1";
+        //var queryURL = "http://api.giphy.com/v1/gifs/random&api_key=dc6zaTOxFJmzC&limit=3&tag="+ p;
+        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + p + "&random&api_key=dc6zaTOxFJmzC&limit=3";
+
+        $.ajax({url: queryURL, method: 'GET'})
+        .done(function(response) {
+           var results = response.data;         
+
+           for(var i=0; i < results.length; i++){
+
+            var rating = results[i].rating;
+            var p = $('<p>').text( "Rating: " + rating);
+
+            var gipImage = $('<img>');
+
+            animateUrl = results[i].images.fixed_height.url;
+            staticUrl = results[i].images.fixed_height_still.url;
+            //console.log("animate " + animateUrl +" still " + staticUrl);
+            //gipImage.attr('src', results[i].images.fixed_height.url);  
+            gipImage.attr('src', animateUrl);
+            gipImage.attr('data-state', "animate");
+            gipImage.attr('data-animate', animateUrl);  
+            gipImage.attr('data-still', staticUrl); 
+            gipImage.attr('class', "giphyItem");
+            var gifDiv = $('<div class="item">')          
+            gifDiv.append(p)
+            gifDiv.append(gipImage)
+            $('#giphyArea').prepend(gifDiv); //add the giphy   
+        }
+
+    }); 
+    });//button onclick
+
+    /*$('.giphyItem').on('click', function(){
+        var state = $(this).attr('data-state'); 
+        console.log("got here");
+    });*/
+    //$('body').on('click','img',function(){alert('it works');})
+    //$('.giphyItem').click(function(){
+        //var state = $(this).attr('data-state'); 
+        //console.log("got here");
+        ///images not recognizing click
+    //});
+    
+    $('body').on('click','.giphyItem',function(){
+        var state = $(this).attr('data-state');
+        
+        if ( state === 'still'){
+                $(this).attr('src', $(this).data('animate'));
+                $(this).attr('data-state', 'animate');
+        }
+        else {       
+                $(this).attr('src', $(this).data('still'));
+                $(this).attr('data-state', 'still');                
+        }
+    })
+
+</script>
+</body>
+</html>
