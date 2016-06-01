@@ -4,9 +4,9 @@
     <title>Button Giphys</title>
 </head>
 <body>
-    <button class="buttonGiphy" data-gip="Frida Kahlo">Frida Kahlo</button>
+    <!-- <button class="buttonGiphy" data-gip="Frida Kahlo">Frida Kahlo</button>
     <button class="buttonGiphy" data-gip="Winston Churchill">Winston Churchill</button>
-    <button class="buttonGiphy" data-gip="Martin Freeman">Martin Freeman</button>
+    <button class="buttonGiphy" data-gip="Martin Freeman">Martin Freeman</button> -->
     
     <div class="inputForm">
         <label for="addItem">Add a Button to Get Giphys</label>
@@ -20,11 +20,16 @@
     <script src='http://code.jquery.com/jquery-2.1.3.min.js'></script>
     <script type="text/javascript">
 
-    var btnnSearch = ["Surfing", "Marilyn+Monroe", "Amy+Schumer"];
-    
     var animateUrl = "";
-    var staticUrl = "";    
-
+    var staticUrl = ""; 
+    var btnnSearch = ["Surfing", "Marilyn Monroe", "Amy Schumer", "Frida Kahlo", "Martin Freeman"];
+    
+    function replaceSpace(string){
+       targetString = $(this).val();
+       alteredString = targetString.replace(" ", "+");
+       return alteredString; 
+    }   
+       
     function btnnGroup() {
         for(var i =0; i < btnnSearch.length; i++){
             //console.log(btnnSearch);
