@@ -48,7 +48,7 @@
         var newItem = $('#addItemText').val();
         if(jQuery.trim(newItem).length > 0){ //checking for empty input
             var fixedItem = replaceSpace(newItem); //need to make sure space is replaced with a +
-            console.log("fixedItem " + fixedItem);
+            //console.log("fixedItem " + fixedItem);
             $("#btnnArea").append("<button class='buttonGiphy btn btn-default' data-gip="+fixedItem+">"+newItem+"</button>"); 
             $('#addItemText').val(""); 
         }//if      
